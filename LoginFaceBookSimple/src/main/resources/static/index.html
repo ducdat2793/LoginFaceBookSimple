@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Demo</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="/" />
+<!-- <link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" /> -->
+<link rel="stylesheet" type="text/css"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- <script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script> -->
+<script type="text/javascript"
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="navbar navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Default</a>
+	</div>
+	<div class="unauthencitated">
+		<a class="btn btn-primary" href="/login">Login</a>
+	</div>
+
+	<div class="authenticated" style="display: none">
+		Logged in as : <span id="user"></span>
+		<div>
+			<button onclick="logout()" class="btn btn-primary">Logout</button>
+		</div>
+	</div>
+
+
+	<script>
+	if(window.location.hash == '#_=_'){
+		history.replaceState ?
+				history.replaceState(null,null,window.location.href.split('#')[0])
+				: window.location.hash = '';
+	}
+	
+		$.get("/user", function(data) {
+			$("#user").html(data.userAuthentication.details.name);
+			$(".unauthencitated").hide()
+			$(".authenticated").show()
+		})
+		var logout = function(){
+			$.post("/logout",function(){
+				$("#user").html('');
+				$(".unauthencitated").show();
+				$(".authenticated").hide();
+			})
+		}
+	</script>
+</body>
+</html>
